@@ -27,7 +27,9 @@ function startGame() {
     btnStart.setAttribute("hidden", "true");
     createDino(); 
     createObstacle();
+    clearInterval(setTime);
     setTime = setInterval(updateSeconds, 1000);
+    setObstacleInterval = setInterval(createObstacle, 4000);
 }
 
 function createDino() { // red's element
@@ -36,19 +38,21 @@ function createDino() { // red's element
         gameContainer.appendChild(dino);
         dino.classList.add("myDino");
         document.addEventListener("keypress", theDinoJump);
-        setObstacleInterval = setInterval(createObstacle, 3500);
         setInterval(checkCollision, 100);
     }
 }
 
 function theDinoJump(event) {
-    if(gameRunning && canJump) {
+    if(gameRunning === true && canJump === true) {
         const dinoMoves = document.querySelector(".myDino");
         clearInterval(dinoJump);
+        dinoPositionJump = 80;
         dinoJump = setInterval(() => {
-            if (event.key === " " && dinoPositionJump >= dinoPositionVerticalMin) {
+            if (event.key === " " && dinoPositionJump > dinoPositionVerticalMin) {
                 dinoPositionJump -= 1;
                 dinoMoves.style.top = `${dinoPositionJump}%`;
+                console.log(dinoPositionJump)
+                console.log(dinoPositionVerticalMin)
             } else {
                 clearInterval(dinoJump);
                 theDinoFall();
@@ -66,9 +70,11 @@ function theDinoFall() {
     clearInterval(dinoFall);
     dinoPositionFall = 40; // %
     dinoFall = setInterval(() => {
-        if (dinoPositionFall <= dinoPositionVerticalMax) {
+        if (dinoPositionFall < dinoPositionVerticalMax) {
             dinoPositionFall += 1;
             dinoMoves.style.top = `${dinoPositionFall}%`;
+            console.log(dinoPositionVerticalMax)
+            console.log(dinoPositionFall)
         } else {
             clearInterval(dinoFall);
             dinoPositionJump = 80;
@@ -119,13 +125,15 @@ function displayMessage() {
     btnStart.removeAttribute("hidden", "true");
     if (theBiggestScore < seconds) {
         theBiggestScore = seconds;
-        highScore.innerHTML = `High Score: ${theBiggestScore} seconds`;
-        score.innerHTML = "Score: 0 seconds";
+        highScore.innerHTML = `High Score: ${theBiggestScore}`;
+        score.innerHTML = "Score: 0";
         clearInterval(setTime);
+    } else {
+        clearInterval(setTime)
     }
 }
 
 function updateSeconds() {
     ++seconds;
-    score.innerHTML = `Score: ${seconds} seconds`;
+    score.innerHTML = `Score: ${seconds}`;
 }
