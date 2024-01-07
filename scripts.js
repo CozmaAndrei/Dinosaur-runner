@@ -37,12 +37,12 @@ function createDino() { // red's element
         const dino = document.createElement("div");
         gameContainer.appendChild(dino);
         dino.classList.add("myDino");
-        document.addEventListener("keypress", theDinoJump);
+        document.addEventListener("keypress", jump);
         setInterval(checkCollision, 100);
     }
 }
 
-function theDinoJump(event) {
+function jump(event) {
     if(gameRunning === true && canJump === true) {
         const dinoMoves = document.querySelector(".myDino");
         clearInterval(dinoJump);
@@ -55,7 +55,7 @@ function theDinoJump(event) {
                 console.log(dinoPositionVerticalMin)
             } else {
                 clearInterval(dinoJump);
-                theDinoFall();
+                fall();
             }
         }, 10);
         canJump = false;
@@ -65,7 +65,7 @@ function theDinoJump(event) {
     }
 }
 
-function theDinoFall() {
+function fall() {
     const dinoMoves = document.querySelector(".myDino");
     clearInterval(dinoFall);
     dinoPositionFall = 40; // %
