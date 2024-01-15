@@ -29,7 +29,9 @@ body {
     height: 80%;
     justify-content: center;
     align-items: center;
-    background-color:white;
+    background-image: url("images/19143294.jpg");
+    background-position:center;
+    background-size: cover;
     overflow: hidden;
     border-radius: 30px;
 }
@@ -44,26 +46,38 @@ body {
     background-color: lightskyblue;
 }
 
-.myDino {
+.myPlayer {
     position: absolute;
-    height: 60px;
-    width: 50px;
+    height: 100px;
+    width: 60px;
     left: 20%;
-    top: 80%;
+    top: 70%;
+    background-image: url("images/DialogueBarry0.png");
+    background-position: center;
+    background-size: 160%;
+    border-bottom-right-radius: 30px;
+}
 
-    border-radius: 30px;
-    background-color: red;
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
 }
 
 .obstacle {
     position: absolute;
     left: 100%;
-    top: 80%;
+    top: 78%;
     height: 60px;
-    width: 50px;
-
-    background-color: rgb(0, 255, 0);
-    border-radius: 30px;
+    width: 60px;
+    border-radius: 100px;
+    background-image: url("images/royalty-free-bomb-stock-photography-cartoon-bomb.jpg");
+    background-position:100%;
+    background-size: 100%;
+    animation: rotate 1s linear infinite;
 }
 
 .result {
@@ -77,11 +91,11 @@ body {
 .score {
     position: absolute;
     top: 0;
-    left: 85%;
+    left: 5%;
 }
 
 .highScore {
     position: absolute;
     top: 5%;
-    left: 85%;
+    left: 5%;
 }
