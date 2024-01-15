@@ -9,12 +9,12 @@ let seconds = 0;
 let theBiggestScore = 0;
 let setTime;
 let gameRunning = false;
-let dinoPositionJump = 80; // %
-let dinoPositionFall = 40; // %
-const dinoPositionVerticalMin = 40; // %
-const dinoPositionVerticalMax = 80; // %
-let dinoJump;
-let dinoFall
+let playerPositionJump = 70; // %
+let playerPositionFall = 20; // %
+const playerPositionVerticalMin = 20; // %
+const playerPositionVerticalMax = 70; // %
+let playerJump;
+let playerFall
 let canJump = true
 let setObstacleInterval;
 
@@ -25,37 +25,37 @@ function startGame() {
     result.innerHTML = "";
     seconds = 0;
     btnStart.setAttribute("hidden", "true");
-    createDino(); 
+    createPlayer(); 
     createObstacle();
     clearInterval(setTime);
     setTime = setInterval(updateSeconds, 1000);
     setObstacleInterval = setInterval(createObstacle, 4000);
 }
 
-function createDino() { // red's element
+function createPlayer() { // red's element
     if (gameRunning === true) {
-        const dino = document.createElement("div");
-        gameContainer.appendChild(dino);
-        dino.classList.add("myDino");
-        document.addEventListener("keypress", jump);
+        const player = document.createElement("div");
+        gameContainer.appendChild(player);
+        player.classList.add("myPlayer");
+        document.addEventListener("keypress", thePlayerJump);
         setInterval(checkCollision, 100);
     }
 }
 
-function jump(event) {
+function thePlayerJump(event) {
     if(gameRunning === true && canJump === true) {
-        const dinoMoves = document.querySelector(".myDino");
-        clearInterval(dinoJump);
-        dinoPositionJump = 80;
-        dinoJump = setInterval(() => {
-            if (event.key === " " && dinoPositionJump > dinoPositionVerticalMin) {
-                dinoPositionJump -= 1;
-                dinoMoves.style.top = `${dinoPositionJump}%`;
-                console.log(dinoPositionJump)
-                console.log(dinoPositionVerticalMin)
+        const playerMoves = document.querySelector(".myPlayer");
+        clearInterval(playerJump);
+        playerPositionJump = 70;
+        playerJump = setInterval(() => {
+            if (event.key === " " && playerPositionJump > playerPositionVerticalMin) {
+                playerPositionJump -= 1;
+                playerMoves.style.top = `${playerPositionJump}%`;
+                console.log(playerPositionJump)
+                console.log(playerPositionVerticalMin)
             } else {
-                clearInterval(dinoJump);
-                fall();
+                clearInterval(playerJump);
+                theDinoFall();
             }
         }, 10);
         canJump = false;
@@ -65,19 +65,17 @@ function jump(event) {
     }
 }
 
-function fall() {
-    const dinoMoves = document.querySelector(".myDino");
-    clearInterval(dinoFall);
-    dinoPositionFall = 40; // %
-    dinoFall = setInterval(() => {
-        if (dinoPositionFall < dinoPositionVerticalMax) {
-            dinoPositionFall += 1;
-            dinoMoves.style.top = `${dinoPositionFall}%`;
-            console.log(dinoPositionVerticalMax)
-            console.log(dinoPositionFall)
+function theDinoFall() {
+    const playerMoves = document.querySelector(".myPlayer");
+    clearInterval(playerFall);
+    playerPositionFall = 20; // %
+    playerFall = setInterval(() => {
+        if (playerPositionFall < playerPositionVerticalMax) {
+            playerPositionFall += 1;
+            playerMoves.style.top = `${playerPositionFall}%`;
         } else {
-            clearInterval(dinoFall);
-            dinoPositionJump = 80;
+            clearInterval(playerFall);
+            playerPositionJump = 70;
         }
     }, 10);  
 }
@@ -94,8 +92,8 @@ function obstacleMove(obstacleElement) {
     let setObstaclePosition = setInterval(() => {
         obstaclePosition -= 0.1;
         obstacleElement.style.left = `${obstaclePosition}%`;
-        const treeRect = obstacleElement.getBoundingClientRect();
-        if (treeRect.right <= gameContainerRect.left) {
+        const obstacleRect = obstacleElement.getBoundingClientRect();
+        if (obstacleRect.right <= gameContainerRect.left) {
             clearInterval(setObstaclePosition);
             obstacleElement.remove();
         }
@@ -104,14 +102,14 @@ function obstacleMove(obstacleElement) {
 
 function checkCollision() {
     const obstacleObject = document.querySelector(".obstacle");
-    const dinoObject = document.querySelector(".myDino");
-    if (obstacleObject && dinoObject) {
-        const dinoRect = dinoObject.getBoundingClientRect();
-        const treeRect = obstacleObject.getBoundingClientRect();
-        if (treeRect.left <= dinoRect.right &&
-            treeRect.top <= dinoRect.bottom &&
-            treeRect.right >= dinoRect.left) {
-            dinoObject.remove();
+    const playerObject = document.querySelector(".myPlayer");
+    if (obstacleObject && playerObject) {
+        const playerRect = playerObject.getBoundingClientRect();
+        const obstacleRect = obstacleObject.getBoundingClientRect();
+        if (obstacleRect.left <= playerRect.right &&
+            obstacleRect.top <= playerRect.bottom &&
+            obstacleRect.right >= playerRect.left) {
+            playerObject.remove();
             obstacleObject.remove();
             gameRunning = false;
             clearInterval(setObstacleInterval);
