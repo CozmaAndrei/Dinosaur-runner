@@ -9,10 +9,10 @@ let seconds = 0;
 let theBiggestScore = 0;
 let setTime;
 let gameRunning = false;
-let playerPositionJump = 70; // %
+let playerPositionJump = 65; // %
 let playerPositionFall = 20; // %
 const playerPositionVerticalMin = 20; // %
-const playerPositionVerticalMax = 70; // %
+const playerPositionVerticalMax = 65; // %
 let playerJump;
 let playerFall
 let canJump = true
@@ -46,7 +46,7 @@ function thePlayerJump(event) {
     if(gameRunning === true && canJump === true) {
         const playerMoves = document.querySelector(".myPlayer");
         clearInterval(playerJump);
-        playerPositionJump = 70;
+        playerPositionJump = 65;
         playerJump = setInterval(() => {
             if (event.key === " " && playerPositionJump > playerPositionVerticalMin) {
                 playerPositionJump -= 1;
@@ -61,7 +61,7 @@ function thePlayerJump(event) {
         canJump = false;
         setTimeout(() => {
             canJump = true;
-        }, 800); 
+        }, 900); 
     }
 }
 
@@ -75,7 +75,7 @@ function theDinoFall() {
             playerMoves.style.top = `${playerPositionFall}%`;
         } else {
             clearInterval(playerFall);
-            playerPositionJump = 70;
+            playerPositionJump = 65;
         }
     }, 10);  
 }
@@ -84,13 +84,14 @@ function createObstacle() { // green's element
     const obstacleElement = document.createElement("div");
     gameContainer.appendChild(obstacleElement);
     obstacleElement.classList.add("obstacle");
+    obstacleElement.style.top = `${Math.random() * 13 + 60}%`;
     obstacleMove(obstacleElement);
 }
 
 function obstacleMove(obstacleElement) {
     let obstaclePosition = 100;
     let setObstaclePosition = setInterval(() => {
-        obstaclePosition -= 0.1;
+        obstaclePosition -= 0.3;
         obstacleElement.style.left = `${obstaclePosition}%`;
         const obstacleRect = obstacleElement.getBoundingClientRect();
         if (obstacleRect.right <= gameContainerRect.left) {
